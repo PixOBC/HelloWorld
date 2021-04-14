@@ -11,20 +11,41 @@
 
 struct Person
 {
+    // if the member variables CANNOT be default-constructed (e.g. if it only has one constructor declared and that constructor takes arguments) then that member variable must be initialised in the Constructor's member intialisation list
+    // int age = 0
     int age = 0;
     int heightInInches = 0;
     float hairLength{ 0.0f };
     float GPA = 0.0f;
     unsigned int SATScore{ 0 };
     int distanceTraveled = 0;
+    juce::String name;
 
-    Person();
-    ~Person() {}
+    // Conststructor is called AFTER all member variables that can be default-constructed ARE constructed
+    Person(juce::String personsName)
+        : name(personsName)
+    {
+        DBG("Person constructor: " + name); // could use <<
+    }
+    // NB Destructor is called first and then member variables are destroyed after the destructor has finished executing
+    ~Person() 
+    {
+        DBG("Person destructor: " + name);
+    } 
 
     // int run(int howFast, bool startWithLeftFoot);
 };
 
-Person::Person() {}
+void PersonFunction()
+{
+    Person p;
+}
+
+Person::Person() 
+    : age(0)
+{
+
+}
 
 struct IntValue
 {
@@ -102,19 +123,7 @@ void familyFunction()
     family.mum.age = 42; // sequencing access mum(Family).age(Person)
 }
 
-struct ColourPickerWidget
-{
-    ColourPickerWidget()
-    {
-        loadSettingsFromDisk();
-    }
 
-    // NB Destructor is called first and then all the member variables are destroyed
-    ~ColourPickerWidget()
-    {
-        saveSettingsToDisk();
-    }
-};
 
 
 //==============================================================================
