@@ -11,13 +11,15 @@
 
 struct Person
 {
-    Person();
     int age = 0;
     int heightInInches = 0;
     float hairLength{ 0.0f };
     float GPA = 0.0f;
     unsigned int SATScore{ 0 };
     int distanceTraveled = 0;
+
+    Person();
+    ~Person() {}
 
     // int run(int howFast, bool startWithLeftFoot);
 };
@@ -82,7 +84,37 @@ void whileTest()
     }
 }
 
+struct Family
+{
+    // order initialised is the order in which they were declared
+    // order of destruction is reverse of construction
 
+    Person mum;
+    Person dad;
+    Person child1;
+    Person child2;
+};
+
+void familyFunction()
+{
+    // a member variables lifetime is that of its owning object
+    Family family;
+    family.mum.age = 42; // sequencing access mum(Family).age(Person)
+}
+
+struct ColourPickerWidget
+{
+    ColourPickerWidget()
+    {
+        loadSettingsFromDisk();
+    }
+
+    // NB Destructor is called first and then all the member variables are destroyed
+    ~ColourPickerWidget()
+    {
+        saveSettingsToDisk();
+    }
+};
 
 
 //==============================================================================
