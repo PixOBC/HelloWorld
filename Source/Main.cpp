@@ -36,16 +36,6 @@ struct Person
     // int run(int howFast, bool startWithLeftFoot);
 };
 
-void PersonFunction()
-{
-    Person p;
-}
-
-Person::Person() 
-    : age(0)
-{
-
-}
 
 struct IntValue
 {
@@ -110,17 +100,19 @@ struct Family
     // order initialised is the order in which they were declared
     // order of destruction is reverse of construction
 
-    Person mum;
-    Person dad;
-    Person child1;
-    Person child2;
+    Family() { DBG("family constructor"); }
+    ~Family() { DBG("family deconstructor"); }
+
+    Person mum{"mum"};
+    Person dad{"dad"};
+    Person child1{"child1"};
+    Person child2{"child2"};
 };
 
 void familyFunction()
 {
     // a member variables lifetime is that of its owning object
     Family family;
-    family.mum.age = 42; // sequencing access mum(Family).age(Person)
 }
 
 
@@ -141,7 +133,7 @@ public:
     void initialise (const juce::String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-        //functionC();
+        familyFunction();
         //functionB();
         //Person person;
         //DBG(person.age);
