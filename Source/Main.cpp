@@ -13,7 +13,7 @@ struct Person
 {
     // if the member variables CANNOT be default-constructed (e.g. if it only has one constructor declared and that constructor takes arguments) then that member variable must be initialised in the Constructor's member intialisation list
     // int age = 0
-    int age = 0;
+    int age; //= 0;
     int heightInInches = 0;
     float hairLength{ 0.0f };
     float GPA = 0.0f;
@@ -28,6 +28,12 @@ struct Person
         : name(personsName)
     {
         DBG("Person constructor: " + name); // could use <<
+    }
+    
+    // When program execution is inside a constructoror any member function the scope INCLUDES all class member variables.
+    Person (int age)
+    {
+        this->age = age;
     }
     // NB Destructor is called first and then member variables are destroyed after the destructor has finished executing
     ~Person() 
@@ -66,9 +72,11 @@ void Person::moveAndSetAge(int speed, int newAge)
     age = newAge;
 }
 
+// free function
 void doStuff()
 {
-    Person p{"person"};
+    //Person p{"person"};
+    Person p(6);
     p.moveAndSetAge(5, 42);
 }
 
@@ -168,7 +176,8 @@ public:
     void initialise (const juce::String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-        familyFunction();
+        doStuff();
+        //familyFunction();
         //functionB();
         //Person person;
         //DBG(person.age);
