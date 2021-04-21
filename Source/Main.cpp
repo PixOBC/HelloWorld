@@ -20,6 +20,8 @@ struct Person
     unsigned int SATScore{ 0 };
     int distanceTraveled = 0;
     juce::String name;
+    
+    int run(int howFast, bool startWithLeftFoot);
 
     // Conststructor is called AFTER all member variables that can be default-constructed ARE constructed
     Person(juce::String personsName)
@@ -33,9 +35,42 @@ struct Person
         DBG("Person destructor: " + name);
     } 
 
-    // int run(int howFast, bool startWithLeftFoot);
+    void moveAndSetAge(int speed, int newAge);
+    
+    struct Foot
+    {
+        int stepForward() {return 0;}
+    };
+    Foot leftFoot;
+    Foot rightFoot;
 };
 
+int Person::run(int howFast, bool startWithLeftFoot)
+{
+    if(startWithLeftFoot)
+    {
+        return leftFoot.stepForward() + rightFoot.stepForward();
+    }
+    
+    return rightFoot.stepForward() + leftFoot.stepForward();
+}
+
+// in what scope or context is that run() function being called? Who owns it? Who owns that age variable?
+// p owns them - While we are in the scope of move and set age the calling object is the owner.
+// 1. When we are using members of our Person from an outside perspective, we used the instance name, dot, then the name of the member we wanted to access.
+// 2. However, when we are inside a member function called from an outside scope, the calling object is the owner. We use the 'this' keyword and arrow operator to express the name of the calling object.
+
+void Person::moveAndSetAge(int speed, int newAge)
+{
+    run(speed, true);
+    age = newAge;
+}
+
+void doStuff()
+{
+    Person p{"person"};
+    p.moveAndSetAge(5, 42);
+}
 
 struct IntValue
 {
