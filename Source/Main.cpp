@@ -196,9 +196,16 @@ void addressOfFunction()
 {
 	Person a, b, c;
 
-	Person* p1;
-	Person* p2;
-	Person* p3;
+	Person* p1 = nullptr;
+	Person* p2 = &b;
+	Person* p3 = nullptr;
+
+	// always check if pointers are not a nullptr before using them by dereferencing
+	if (p1 != nullptr)
+	{
+		p1->age = 42;
+		(*p1).age = 42;
+	}
 
 	// Though p1, p2 and p3 all different addresses in memory, their value is still the same (the address where person a lives)
 	p1 = &a;
