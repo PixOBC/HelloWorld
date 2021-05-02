@@ -21,7 +21,7 @@ struct Person
 
 	int run(int howFast, bool startWithLeftFoot);
 
-	juce::String name ;
+	juce::String name;
 
 	Person() {}
 
@@ -171,21 +171,78 @@ void functionForLearningCPP()
 	c.age = 24;
 
 	// all the information in a has been COPIED into a new instance inside the vector
-    // so, when you modify the i'th instance in the vector it's a completely different variable to the one declared above. That instance is owned by the vector
-    // Using pointers, We're storing the memory address of where our object currently lives
-	std::vector<Person> persons = { a, b, c };
+	// so, when you modify the i'th instance in the vector it's a completely different variable to the one declared above. That instance is owned by the vector
+	// Using pointers, We're storing the memory address of where our object currently lives
+	// '=' operator now just copies the memory address of a, b and c rather than all of their member variables 
+	std::vector<Person*> persons = { &a, &b, &c };
 
 	for (size_t i = 0; i > persons.size(); ++i)
 	{
-		persons[i].age = 24;
+		// changing all objects in vector to the same value
+		Person* p = persons[i];
+		// '.' is for accessing an the member functions/variables DIRECTLY. '->' is for accessing the member functions/variables of some object that you're POINTING to.
+		p->age = 24;
 	}
+
+	// THIS IS THE NAME OF THE POINTER VARIABLE THAT IS POINTING TO AT WHATEVER CLASS INSTANCE IS BEING USED WHEN YOU'RE INSIDE OF A MEMBER FUNCTION
 
 	/*
 	* person[i].<name of the member function/variable>;
 	*/
 
+}
 
+void addressOfFunction()
+{
+	Person a, b, c;
 
+	Person* p1;
+	Person* p2;
+	Person* p3;
+
+	// Though p1, p2 and p3 all different addresses in memory, their value is still the same (the address where person a lives)
+	p1 = &a;
+	p2 = &a;
+	p3 = &a;
+
+	// with pointers, they still store a value. It's just the value just happens to be the address of where some other object lives
+	p1 = &a;
+	p1 = &b;
+	p1 = &c;
+
+	//just like
+	int num;
+	num = 3;
+	num = 5;
+	num = 8;
+}
+
+int Person::run(int howFast, bool startWithLeftFoot)
+{
+	this->distanceTraveled = this->leftFoot.stepForward() + this->rightFoot.stepForward();
+}
+
+void test()
+{
+	Person p;
+
+}
+
+// THINK OF THE THIS KEYWORD AS THOUGH YOUR FUNCTION WAS WRITTING THIS WAY
+// The following two functions show what happens when you call a member function
+// IT'S CALLED 'HIDDEN THIS' https://www.learncpp.com/cpp-tutorial/the-hidden-this-pointer/
+// Conversely, the static keyword tells the compiler 'don't add a hidden 'Type* this' at the beginning of class member function's parameter list. It's the same reason static functions cannot use member variables inside their function body (no means of accessing any member variables inside that function body). Static member variables are tied to the lifetime of the program not an object
+int Person::run(Person* this, int howFast, bool startWithLeftFoot)
+{
+	this->distanceTraveled = this->leftFoot.stepForward() + this->rightFoot.stepForward();
+}
+
+// Calling run()
+void test()
+{
+	Person p;
+	Person* ptrToThis = &p; // this is this
+	Person::run(ptrToThis, 45, true);
 }
 
 
