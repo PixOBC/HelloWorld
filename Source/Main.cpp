@@ -22,7 +22,7 @@ struct Person
 
 	int run(int howFast, bool startWithLeftFoot);
 
-	juce::String name;
+	juce::String name ;
 
 	Person() {}
 
