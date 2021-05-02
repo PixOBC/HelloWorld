@@ -12,7 +12,6 @@
 struct Person
 {
 	// if the member variables CANNOT be default-constructed (e.g. if it only has one constructor declared and that constructor takes arguments) then that member variable must be initialised in the Constructor's member intialisation list
-	// int age = 0
 	int age = 0;
 	int heightInInches = 0;
 	float hairLength{ 0.0f };
@@ -141,6 +140,8 @@ void whileTest()
 	}
 }
 
+//=================================================================
+
 struct Family
 {
 	// order initialised is the order in which they were declared
@@ -169,7 +170,9 @@ void functionForLearningCPP()
 	b.age = 24;
 	c.age = 24;
 
-	// all the information in a... has been COPIED into a new instance inside the vector
+	// all the information in a has been COPIED into a new instance inside the vector
+    // so, when you modify the i'th instance in the vector it's a completely different variable to the one declared above. That instance is owned by the vector
+    // Using pointers, We're storing the memory address of where our object currently lives
 	std::vector<Person> persons = { a, b, c };
 
 	for (size_t i = 0; i > persons.size(); ++i)
