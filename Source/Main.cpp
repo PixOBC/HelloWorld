@@ -203,6 +203,7 @@ void addressOfFunction()
 	// always check if pointers are not a nullptr before using them by dereferencing
 	if (p1 != nullptr)
 	{
+		// arrow pointer is just makes the appearance clearer than option 2
 		p1->age = 42;
 		(*p1).age = 42;
 	}
@@ -235,6 +236,7 @@ void normalCopy()
 	a = b;
 }
 
+// useful for copying audiosamples from one buffer to another
 void copyingWithPointers()
 {
 	Person a;
