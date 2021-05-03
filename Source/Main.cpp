@@ -222,6 +222,28 @@ void addressOfFunction()
 	num = 3;
 	num = 5;
 	num = 8;
+
+	Person* personPtr;
+	*personPtr;
+}
+
+void normalCopy()
+{
+	Person a;
+	Person b;
+
+	a = b;
+}
+
+void copyingWithPointers()
+{
+	Person a;
+	Person b;
+	Person* p1 = &a;
+
+	// copies the contents of b into whatever p1 is pointing to (a)
+	*p1 = b;
+
 }
 
 int Person::run(int howFast, bool startWithLeftFoot)
