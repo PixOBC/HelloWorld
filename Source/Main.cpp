@@ -248,36 +248,68 @@ void copyingWithPointers()
 
 }
 
-int Person::run(int howFast, bool startWithLeftFoot)
-{
-	this->distanceTraveled = this->leftFoot.stepForward() + this->rightFoot.stepForward();
-}
-
-void test()
-{
-	Person p;
-
-}
+//int Person::run(int howFast, bool startWithLeftFoot)
+//{
+//	this->distanceTraveled += this->leftFoot.stepForward() + this->rightFoot.stepForward();
+//}
 
 // THINK OF THE THIS KEYWORD AS THOUGH YOUR FUNCTION WAS WRITTING THIS WAY
 // The following two functions show what happens when you call a member function
 // IT'S CALLED 'HIDDEN THIS' https://www.learncpp.com/cpp-tutorial/the-hidden-this-pointer/
 // Conversely, the static keyword tells the compiler 'don't add a hidden 'Type* this' at the beginning of class member function's parameter list. It's the same reason static functions cannot use member variables inside their function body (no means of accessing any member variables inside that function body). Static member variables are tied to the lifetime of the program not an object
-int Person::run(Person* this, int howFast, bool startWithLeftFoot)
-{
-	this->distanceTraveled = this->leftFoot.stepForward() + this->rightFoot.stepForward();
-}
+//int Person::run(Person* this, int howFast, bool startWithLeftFoot)
+//{
+//	this->distanceTraveled += this->leftFoot.stepForward() + this->rightFoot.stepForward();
+//}
 
 // Calling run()
 void test()
 {
 	Person p;
 	Person* ptrToThis = &p; // this is this
-	Person::run(ptrToThis, 45, true);
+	//Person::run(ptrToThis, 45, true);
+}
+
+void referenceFunction()
+{
+	// a and referenceToA refer to the same place in memory. referenceToA IS ANOTHER NAME FOR A
+	Person a;
+	Person& referenceToA = a;
+}
+
+void growOlder(Person& person)
+{
+	person.age += 1;
+	person.heightInInches += 1;
+	person.hairLength += 2.0f;
+}
+
+// Who's age is being incremented? The instance of Person that was passed into the function
+void funct()
+{
+	Person p;
+	growOlder(p);
 }
 
 
+void Gotcha(Person*& p)
+{
+	auto person = std::make_unique<Person>();
+	p = person.get();
+} // At this point the memory allocate is returned to computer and is no longer valid as the pointer is destroyed
 
+void SuspectFunction()
+{
+	// didn't initialise or check if valid
+	Person* personPtr;
+	Gotcha(personPtr);
+
+	DBG(personPtr->age);
+
+	// Dangling reference
+	Person* nullPtrExample = nullptr;
+	DBG(nullPtrExample)->age); // tried to use a nullprt
+}
 
 
 
@@ -306,6 +338,7 @@ public:
 		//Person person;
 		//DBG(person.age);
 		//whileTest();
+
 
 		mainWindow.reset(new MainWindow(getApplicationName()));
 	}
