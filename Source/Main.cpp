@@ -291,30 +291,17 @@ void funct()
 	growOlder(p);
 }
 
-
-void Gotcha(Person*& p)
+Person& getReferenceToAPerson()
 {
 	auto person = std::make_unique<Person>();
-	p = person.get();
-} // At this point the memory allocate is returned to computer and is no longer valid as the pointer is destroyed
-
-void SuspectFunction()
-{
-	// didn't initialise or check if valid
-	Person* personPtr;
-	Gotcha(personPtr);
-
-	DBG(personPtr->age);
-
-	// Dangling reference
-	Person* nullPtrExample = nullptr;
-	DBG(nullPtrExample)->age); // tried to use a nullprt
+	return *person;
 }
 
-
-
-
-
+void danglingReference()
+{
+	Person& ref = getReferenceToAPerson();
+	DBG()
+}
 
 
 //==============================================================================
