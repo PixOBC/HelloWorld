@@ -300,7 +300,6 @@ Person& getReferenceToAPerson()
 void danglingReference()
 {
 	Person& ref = getReferenceToAPerson();
-	DBG()
 }
 
 

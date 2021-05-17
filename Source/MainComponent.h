@@ -24,21 +24,33 @@ struct Tool
 // if your base class constructor requires arguments, we need explicitly provide them in the preconstructor init list of the derived classes
 struct Vehicle : public Tool
 {
-    Vehicle()
+    Vehicle(const juce::String& purpose_ = "to move objects")
     // initialise the base class and provide the constructor argument to the base class constructor
-        : Tool("To move object")
+        : Tool(purpose_)
     {
-        
     }
 };
 struct ModernInvention {};
 struct StatusSymbol {};
 
+struct SemiTruck : public Vehicle
+{
+  SemiTruck()
+        : Vehicle("to move cargo")
+    {
+        
+    }
+};
+
 struct Car : public Vehicle,
                     ModernInvention,
-                    StatusSymbol,
+                    StatusSymbol
 {
-    
+    Car()
+        : Vehicle("to move people")
+    {
+        
+    }
 };
 
 
