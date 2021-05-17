@@ -2,22 +2,46 @@
 
 #include <JuceHeader.h>
 
-struct Car
+/*
+ a Car IS A Vehicle
+ a Car IS A modern invention
+ a Car IS A status symbol
+ a Car IS A too
+ */
+
+// Our base classes
+struct Tool
 {
-    struct CarSeat
+    // default argument added to constructor in case one isn't added
+    Tool(const juce::String& purpose_ = "to perform work")
+        : purpose(purpose_)
     {
-        bool seatIsLeather;
-    };
-
-    int numberOfWheels;
-    bool convertible;
-    CarSeat driversSeat;
-    CarSeat navigatorsSeat;
-
-    bool switchseat(CarSeat oldSeat, CarSeat newSeat);
-
-    void accelerate(float howFarToPushThePedal);
+        
+    }
+    juce::String purpose;
 };
+
+// if your base class constructor requires arguments, we need explicitly provide them in the preconstructor init list of the derived classes
+struct Vehicle : public Tool
+{
+    Vehicle()
+    // initialise the base class and provide the constructor argument to the base class constructor
+        : Tool("To move object")
+    {
+        
+    }
+};
+struct ModernInvention {};
+struct StatusSymbol {};
+
+struct Car : public Vehicle,
+                    ModernInvention,
+                    StatusSymbol,
+{
+    
+};
+
+
 
 
 //==============================================================================
