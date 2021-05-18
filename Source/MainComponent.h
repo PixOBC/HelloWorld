@@ -84,7 +84,7 @@ struct SemiTruck : public Vehicle
 		: Vehicle("to move cargo", 20, 10)
 	{
 
-	}
+	} 
 };
 
 
@@ -100,6 +100,56 @@ struct Car : public Vehicle,
 	}
 
 };
+
+struct Button
+{
+	// virtual means its member functions can be overriden 
+	struct Listener
+	{
+		virtual ~Listener() { }
+		// no impletation  provided for buttonClicked() by the Button::Listener class (functions address is actually'0' as opposed a real address that can be called by the CPU)
+
+		virtual void buttonClicked(Button*) = 0;
+	};
+
+	juce::Array<Listener*> listeners; // don't need to write <Button::Listener> because we are in the class
+	void addListener(Listener* listener)
+	{
+		listeners.addIfNotAlreadyThere(listener);
+	}
+
+	void click()
+	{
+		// size - 1 >= 0
+		for (int i = listeners.size(); --i >= 0; )
+		{
+			listeners[i]->buttonClicked(this); // buttonClicked called for every button listener stored in the array
+		}
+	}
+};
+
+
+// Any object that inherits from Button::Listener must provide the implementation
+// Done using the ovveride keyword
+// override keyword is not just for providing the implementation of pure vitual functions
+// it's for when you want to change the base class's ipmlementation of any function that it has marked as vitual
+
+// use override to implement function from your derived class otherwise the implementation will take place in base class @21:45 Ch4.2
+
+// Paused at 22:49
+struct Widget : public Button::Listener
+{
+	Widget widget;
+	Button button;
+	void buttonClicked(Button* b) override;
+};
+
+
+
+
+
+
+
 
 //==============================================================================
 /*
