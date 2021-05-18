@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 
 /*
+* Inheritance IS A, Composition HAS A
  a Car IS A Vehicle
  a Car IS A modern invention
  a Car IS A status symbol
@@ -43,8 +44,8 @@ struct SemiTruck : public Vehicle
 };
 
 struct Car : public Vehicle,
-                    ModernInvention,
-                    StatusSymbol
+             public ModernInvention,
+             public StatusSymbol
 {
     Car()
         : Vehicle("to move people")
@@ -52,9 +53,6 @@ struct Car : public Vehicle,
         
     }
 };
-
-
-
 
 //==============================================================================
 /*
