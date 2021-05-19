@@ -101,15 +101,14 @@ struct Car : public Vehicle,
 
 };
 
-struct Button
+struct MyButton
 {
 	// virtual means its member functions can be overriden 
 	struct Listener
 	{
 		virtual ~Listener() { }
 		// no impletation  provided for buttonClicked() by the Button::Listener class (functions address is actually'0' as opposed a real address that can be called by the CPU)
-
-		virtual void buttonClicked(Button*) = 0;
+		virtual void buttonClicked(MyButton*) = 0;
 	};
 
 	juce::Array<Listener*> listeners; // don't need to write <Button::Listener> because we are in the class
@@ -117,6 +116,7 @@ struct Button
 	{
 		listeners.addIfNotAlreadyThere(listener);
 	}
+	void removeListener(Listener* listener) { listeners.removeFirstMatchingValue(listener); }
 
 	void click()
 	{
@@ -129,7 +129,7 @@ struct Button
 };
 
 
-// Any object that inherits from Button::Listener must provide the implementation
+// Any object that inherits from Button::Listener  must provide the implementation
 // Done using the ovveride keyword
 // override keyword is not just for providing the implementation of pure vitual functions
 // it's for when you want to change the base class's ipmlementation of any function that it has marked as vitual
@@ -137,18 +137,47 @@ struct Button
 // use override to implement function from your derived class otherwise the implementation will take place in base class @21:45 Ch4.2
 
 // Paused at 22:49
-struct Widget : public Button::Listener
+// We can add the instance of the widget being created as a listener to when the button is clicked. We do this by calling the button's member function button.addListener(&widget) because Widget IS A listener; it extends Button::Listener so can be passed as the argument.
+
+// MEMBER INITIALISATION: When derived classes are instantiated their base classes are instantiated first
+struct WidgetB : public MyButton::Listener
 {
-	Widget widget;
-	Button button;
-	void buttonClicked(Button* b) override;
+	MyButton button;
+	void buttonClicked(MyButton* b) override {}
+
+	WidgetB()
+	{
+		button.addListener(this); // this is the name that &widget goes by in the constructor 
+	}
+
+	~WidgetB()
+	{
+		button.removeListener(this);
+	}
 };
 
 
 
 
+struct Widget { Widget(void*) {  } };
 
+struct Bar { virtual ~Bar() { } };
 
+struct Foo : public Bar // If there are multiple bass classes then the calling order is left->right
+{
+	Widget widgetA;
+	Foo()
+		: widgetA(nullptr) {}
+};
+
+// Calling order
+// 1. Foo calls Bar constructor (inherits from Bar) - BASE CLASS FIRST
+// 2. Foo calls Widget's constructor (instance of Widget + argument in Foo) - MEMBER VARIABLES TOP->BOTTOM
+// 3. Foo then calls Foo's constructor - IT'S ACTUAL CONSTRUCTOR
+inline void test2()
+{
+	Foo foo;
+}
 
 
 //==============================================================================
