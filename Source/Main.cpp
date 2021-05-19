@@ -224,7 +224,7 @@ void addressOfFunction()
 	num = 5;
 	num = 8;
 
-	Person* personPtr;
+	Person* personPtr = nullptr;
 	*personPtr;
 }
 

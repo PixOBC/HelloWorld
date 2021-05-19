@@ -39,6 +39,7 @@ struct PowerSupply
 
 struct Heater : public TemperatureController {};
 struct AirConditioner : public TemperatureController {};
+struct Thermostat : TemperatureController {};
 
 struct Engine : public PowerSupply
 {

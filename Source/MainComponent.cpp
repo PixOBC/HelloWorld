@@ -1,8 +1,28 @@
 #include "MainComponent.h"
 
+struct base
+{
+    base() { DBG("base constructor"); }
+    ~base() { DBG("base destructor"); }
+};
+
+struct member
+{
+    member() { DBG("member constructor"); }
+    ~member() { DBG("member destructor"); }
+};
+
+struct derived : base
+{
+    derived() { DBG("derived constructor"); }
+    ~derived() { DBG("derived destructor"); }
+    member m;
+};
+
 //==============================================================================
 MainComponent::MainComponent()
 {
+    derived d;
     setSize (600, 400);
 }
 
